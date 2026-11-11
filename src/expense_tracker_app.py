@@ -8,7 +8,7 @@ Class: IT-566: Computer Scripting Techniques
 
 import os
 import sys
-
+import expense_file_ops
 import expenses
 
 
@@ -104,20 +104,48 @@ class ExpenseTrackerApp():
         print(f'\t{"Total":<58}{total:>10.2f}')
         print(f'\t{len(expense_list)} expense(s)') 
 
-    # The four methods below are stubs. They only print a message
-    # for now. I will fill them in during Sprints 3 through 5.
+    # This is a stub. I will fill it in during Sprint 4.
     def filter_expenses(self):
         """Filter expenses by date range and/or category."""
         print('\tFilter Expenses is not implemented yet.')
     
     def save_expenses(self):
         """Save expenses to a JSON file."""
-        print('\tSave Expenses is not implemented yet.')
+        print('\n\tSave Expenses To File\n')
+        filename = self.get_filename(expense_file_ops.DEFAULT_JSON_FILENAME)
+        try:
+            file_path = expense_file_ops.save_expenses_to_json(
+                self._expenses, filename)
+            print(f'\n\tSaved {len(self._expenses)} expense(s) to:')
+            print(f'\t{file_path}')
+        except (OSError, Exception) as e:
+            print(f'\n\tProblem saving file: {e}')    
 
     def open_expenses(self):
         """Open a JSON expense file."""
-        print('\tOpen Expense File is not implemented yet.')
+        print('\n\tOpen Expense File\n')
+        filename = self.get_filename(expense_file_ops.DEFAULT_JSON_FILENAME)
+        try:
+            # Opening a file replaces the list in memory.    
+            self._expenses = expense_file_ops.read_expenses_from_json(filename)
+            print(f'\n\tOpened {filename} with '
+                  f'{len(self._expenses)} expense(s).')
+        # The file name the user typed does not exist.
+        except FileNotFoundError:
+            print(f'\n\tFile not found: {filename}')
+            print(f'\tExpense files are kept in the '
+                  f'{expense_file_ops.DATA_DIR} directory.')
+        except (OSError, Exception) as e:
+            print(f'\n\tProblem opening file: {e}')
 
+    def get_filename(self, default_filename):
+        """Prompt for a file name. Return the default if none is entered."""
+        filename = input(f'\tFile name [{default_filename}]: ').strip()
+        if filename == '':
+            filename = default_filename
+        return filename
+    
+    # This is a stub. I will fill it in during Sprint 5.
     def export_expenses(self):
         """Export expenses to a CSV file."""
         print('\tExport Expenses is not implemented yet.')
