@@ -2,12 +2,14 @@
 
 Date: 10 November 2026
 Project: Expense Tracker
-Student: Jimmy Morrison (j0m94794@marymount.edu)
+Student: Jimmy Morrison
 Class: IT-566: Computer Scripting Techniques
 """
 
 import os
 import sys
+
+import expenses
 
 
 class ExpenseTrackerApp():
@@ -60,21 +62,54 @@ class ExpenseTrackerApp():
             case self._EXPORT_CSV: self.export_expenses()
             case self._EXIT: sys.exit()
             case _: self.print_error_message(menu_choice)
-
-    # The six methods below are stubs. They only print a message
-    # for now. I will fill them in during Sprints 2 through 5.
+    
     def add_expense(self):
         """Prompt the user for a new expense and add it to the list."""
-        print('\tAdd Expense is not implemented yet.')
+        print('\n\tAdd Expense\n')
+        # If the date or amount is bad, create_expense raises an
+        # error. The except shows a message and nothing is added.
+        try:
+            expense_date = input('\tDate (yyyy-mm-dd): ')
+            category = input('\tCategory: ')
+            description = input('\tDescription: ')
+            amount = input('\tAmount: ')
+            expense = expenses.create_expense(expense_date, category,
+                                              description, amount)
+            self._expenses.append(expense)
+            print('\n\tExpense added.')
+        except Exception as e:
+            print(f'\n\tInvalid entry: {e}')
+            print('\tExpense not added.')       
 
     def print_expenses(self):
         """Print all expenses to the console."""
-        print('\tPrint Expenses is not implemented yet.')
+        self.print_expense_report(self._expenses, 'All Expenses')
 
+    def print_expense_report(self, expense_list, title):
+        """Print a list of expenses as a table with a total."""
+        print(f'\n\t{title}\n')
+        if len(expense_list) == 0:
+            print('\tThere are no expenses to print.')
+            return
+
+        print(f'\t{"Date":<12}{"Category":<16}{"Description":<30}'
+              f'{"Amount":>10}')
+        print(f'\t{"-" * 68}')
+        # sorted() prints the expenses in date order without
+        # changing the original list.
+        for expense in sorted(expense_list, key=expenses.get_expense_date):
+            print(f'\t{expenses.format_expense(expense)}')
+        print(f'\t{"-" * 68}')
+        total = expenses.calculate_total(expense_list)
+        print(f'\t{"Total":<58}{total:>10.2f}')
+        print(f'\t{len(expense_list)} expense(s)') 
+
+    # The four methods below are stubs. They only print a message
+    # for now. I will fill them in during Sprints 3 through 5.
     def filter_expenses(self):
         """Filter expenses by date range and/or category."""
         print('\tFilter Expenses is not implemented yet.')
-
+    
     def save_expenses(self):
         """Save expenses to a JSON file."""
         print('\tSave Expenses is not implemented yet.')

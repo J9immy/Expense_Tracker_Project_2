@@ -11,4 +11,4 @@ IT-566 Project 2. A multi-module Python console application that lets users ente
 
 ## Status
 
-Sprint 1 is complete. The menu runs and exits. The commands will be built in Sprints 2 through 5.
+Sprints 1 and 2 are complete. Expenses can be entered and printed. Saving, filtering, and CSV export come in Sprints 3 through 5.
