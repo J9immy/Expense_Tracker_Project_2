@@ -8,7 +8,9 @@ Class: IT-566: Computer Scripting Techniques
 
 import os
 import sys
+
 import expense_file_ops
+import expense_filters
 import expenses
 
 
@@ -104,10 +106,40 @@ class ExpenseTrackerApp():
         print(f'\t{"Total":<58}{total:>10.2f}')
         print(f'\t{len(expense_list)} expense(s)') 
 
-    # This is a stub. I will fill it in during Sprint 4.
     def filter_expenses(self):
         """Filter expenses by date range and/or category."""
-        print('\tFilter Expenses is not implemented yet.')
+        print('\n\tFilter Expenses')
+        print('\tPress Enter to skip any filter you do not want.\n')
+        try:
+            start_date = input('\tStart date (yyyy-mm-dd): ').strip()
+            end_date = input('\tEnd date (yyyy-mm-dd): ').strip()
+
+            if start_date != '':
+                start_date = expenses.validate_date(start_date)
+            if end_date != '':
+                end_date = expenses.validate_date(end_date)
+
+            # A start date after the end date can never match anything.
+            if start_date != '' and end_date != '' and start_date > end_date:
+                raise Exception('Start date must not be after end date.')
+
+            categories = expense_filters.get_categories(self._expenses)
+            print(f'\tCategories: {", ".join(categories)}')
+            category = input('\tCategory: ').strip()
+
+            filtered_list = expense_filters.filter_expenses(
+                self._expenses, start_date, end_date, category)
+
+            title = 'Filtered Expenses'
+            if start_date != '':
+                title += f' | From {start_date}'
+            if end_date != '':
+                title += f' | Through {end_date}'
+            if category != '':
+                title += f' | Category {category.title()}'
+            self.print_expense_report(filtered_list, title)
+        except Exception as e:
+            print(f'\n\tInvalid entry: {e}')
     
     def save_expenses(self):
         """Save expenses to a JSON file."""

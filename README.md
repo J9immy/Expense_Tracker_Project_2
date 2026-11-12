@@ -11,4 +11,4 @@ IT-566 Project 2. A multi-module Python console application that lets users ente
 
 ## Status
 
-Sprints 1 through 3 are complete. Expenses can be entered, printed, saved to a JSON file, and opened again. Filtering and CSV export come in Sprints 4 and 5.
+Sprints 1 through 4 are complete. Expenses can be entered, printed, saved, opened, and filtered by date range and/or category. CSV export comes in Sprint 5.
