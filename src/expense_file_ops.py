@@ -6,6 +6,7 @@ Student: Jimmy Morrison
 Class: IT-566: Computer Scripting Techniques
 """
 
+import csv
 import json
 import os
 
@@ -16,6 +17,10 @@ DATA_DIR = 'data'
 
 # Default file name offered to the user
 DEFAULT_JSON_FILENAME = 'expenses.json'
+DEFAULT_CSV_FILENAME = 'expenses.csv'
+
+# Column headings written to the first row of the CSV file
+CSV_HEADINGS = ['Date', 'Category', 'Description', 'Amount']
 
 # Top-level key in the JSON file
 EXPENSES_KEY = 'expenses'
@@ -66,3 +71,25 @@ def read_expenses_from_json(filename=DEFAULT_JSON_FILENAME):
                                           item[expenses.AMOUNT])
         expense_list.append(expense)
     return expense_list
+
+
+def export_expenses_to_csv(expense_list, filename=DEFAULT_CSV_FILENAME):
+    """Write a list of expenses to a CSV file and return the file path."""
+    file_path = os.path.join(get_data_dir_path(), filename)
+
+    # newline='' stops Windows from adding a blank row between
+    # every expense.
+    with open(file_path, 'w', newline='') as f:
+        # csv.writer puts quotes around values with commas, so
+        # "Dinner, drinks" stays in one Excel cell.        
+        writer = csv.writer(f)
+        writer.writerow(CSV_HEADINGS)
+        for expense in sorted(expense_list, key=expenses.get_expense_date):
+            # The amount is written without a dollar sign so Excel
+            # treats it as a number it can total.           
+            writer.writerow([expense[expenses.DATE],
+                             expense[expenses.CATEGORY],
+                             expense[expenses.DESCRIPTION],
+                             f'{expense[expenses.AMOUNT]:.2f}'])
+
+    return file_path

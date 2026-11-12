@@ -177,10 +177,22 @@ class ExpenseTrackerApp():
             filename = default_filename
         return filename
     
-    # This is a stub. I will fill it in during Sprint 5.
     def export_expenses(self):
         """Export expenses to a CSV file."""
-        print('\tExport Expenses is not implemented yet.')
+        print('\n\tExport Expenses To CSV\n')
+        # An export with no expenses would only hold the headings.    
+        if len(self._expenses) == 0:
+            print('\tThere are no expenses to export.')
+            return
+
+        filename = self.get_filename(expense_file_ops.DEFAULT_CSV_FILENAME)
+        try:
+            file_path = expense_file_ops.export_expenses_to_csv(
+                self._expenses, filename)
+            print(f'\n\tExported {len(self._expenses)} expense(s) to:')
+            print(f'\t{file_path}')
+        except (OSError, Exception) as e:
+            print(f'\n\tProblem exporting file: {e}')    
 
     def print_status(self):
         """Display the number of expenses currently in memory."""
