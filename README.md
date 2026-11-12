@@ -17,6 +17,8 @@ Python 3.10 or newer is required. From the project folder, run:
 
 On Windows in Git Bash, use `winpty python src/main.py` instead.
 
+To try the program with sample data, choose 5 (Open Expense File) and type sample_expenses.json.
+
 ## Menu Commands
 
 1. Add Expense: enter a date (yyyy-mm-dd), category, description, and amount

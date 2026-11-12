@@ -1,0 +1,40 @@
+{
+    "expenses": [
+        {
+            "date": "2026-10-03",
+            "category": "Food",
+            "description": "Groceries",
+            "amount": 64.05
+        },
+        {
+            "date": "2026-10-16",
+            "category": "Travel",
+            "description": "Gas",
+            "amount": 42.0
+        },
+        {
+            "date": "2026-10-28",
+            "category": "Entertainment",
+            "description": "Movie tickets",
+            "amount": 47.0
+        },
+        {
+            "date": "2026-11-01",
+            "category": "Food",
+            "description": "Lunch",
+            "amount": 17.24
+        },
+        {
+            "date": "2026-11-05",
+            "category": "Utilities",
+            "description": "Electric bill",
+            "amount": 206.12
+        },
+        {
+            "date": "2026-11-07",
+            "category": "Food",
+            "description": "Dinner, drinks",
+            "amount": 145.16
+        }
+    ]
+}
